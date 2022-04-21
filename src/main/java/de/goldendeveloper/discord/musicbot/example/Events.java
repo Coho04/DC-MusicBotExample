@@ -53,7 +53,7 @@ public class Events extends ListenerAdapter {
             } else if (cmd.equalsIgnoreCase(Discord.cmdPause)) {
                 pauseTrack(e);
             } else if (cmd.equalsIgnoreCase(Discord.cmdResume)) {
-//                resumeTrack(e);
+                resumeTrack(e);
             } else if (cmd.equalsIgnoreCase(Discord.cmdStop)) {
                 stopTrack(e);
             }
@@ -120,6 +120,15 @@ public class Events extends ListenerAdapter {
         GuildMusicManager musicManager = getGuildAudioPlayer(e.getGuild());
         if (!musicManager.getPlayer().isPaused()) {
             musicManager.getPlayer().setPaused(true);
+        } else {
+            e.reply("Es wird momentan nichts abgespielt!").queue();
+        }
+    }
+
+    private void resumeTrack(SlashCommandInteractionEvent e) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(e.getGuild());
+        if (musicManager.getPlayer().isPaused()) {
+            musicManager.getPlayer().setPaused(false);
         } else {
             e.reply("Es wird momentan nichts abgespielt!").queue();
         }
