@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import de.goldendeveloper.discord.musicbot.example.music.GuildMusicManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -15,6 +16,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.awt.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,17 +48,16 @@ public class Events extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent e) {
         if (e.isFromGuild()) {
             String cmd = e.getName();
-            if (cmd.equalsIgnoreCase(Discord.cmdPlay)) {
-                String TrackUrl = e.getOption(Discord.cmdPlayOptionTrackUrl).getAsString();
-                loadAndPlay(e.getTextChannel(), TrackUrl);
-            } else if (cmd.equalsIgnoreCase(Discord.cmdSkip)) {
-                skipTrack(e);
-            } else if (cmd.equalsIgnoreCase(Discord.cmdPause)) {
-                pauseTrack(e);
-            } else if (cmd.equalsIgnoreCase(Discord.cmdResume)) {
-                resumeTrack(e);
-            } else if (cmd.equalsIgnoreCase(Discord.cmdStop)) {
-                stopTrack(e);
+            switch(cmd) {
+                case Discord.cmdPlay -> {
+                    String TrackUrl = e.getOption(Discord.cmdPlayOptionTrackUrl).getAsString();
+                    loadAndPlay(e.getTextChannel(), TrackUrl);
+                }
+                case Discord.cmdSkip -> skipTrack(e);
+                case Discord.cmdPause -> pauseTrack(e);
+                case Discord.cmdResume -> resumeTrack(e);
+                case Discord.cmdStop -> stopTrack(e);
+                case Discord.cmdList -> getTracks(e);
             }
         }
     }
@@ -100,7 +102,21 @@ public class Events extends ListenerAdapter {
     private void skipTrack(SlashCommandInteractionEvent e) {
         GuildMusicManager musicManager = getGuildAudioPlayer(e.getGuild());
         musicManager.scheduler.nextTrack();
-        e.reply("Skipped to next track.").queue();
+        e.reply(">> Skipped to next track.").queue();
+    }
+
+    private void getTracks(SlashCommandInteractionEvent e) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(e.getGuild());
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("**Warteschlange**");
+        embedBuilder.setDescription("Aktuell sind " + musicManager.scheduler.getTracks().size() + " in der Warteschlange!");
+        for (AudioTrack track : musicManager.scheduler.getTracks()) {
+            embedBuilder.addField(track.getInfo().title, "Author: " + track.getInfo().author + " Position: " + track.getPosition() + " Dauer:" + track.getDuration(), true);
+        }
+        embedBuilder.setFooter("@Golden-Developer", e.getJDA().getSelfUser().getAvatarUrl());
+        embedBuilder.setColor(Color.MAGENTA);
+        embedBuilder.setTimestamp(new Date().toInstant());
+        e.replyEmbeds(embedBuilder.build()).queue();
     }
 
     private void stopTrack(SlashCommandInteractionEvent e) {
@@ -113,6 +129,9 @@ public class Events extends ListenerAdapter {
             }
         } else {
             e.reply("Es wird momentan nichts abgespielt!").queue();
+            if (e.getGuild().getSelfMember().getVoiceState().inAudioChannel()) {
+                e.getGuild().getAudioManager().closeAudioConnection();
+            }
         }
     }
 

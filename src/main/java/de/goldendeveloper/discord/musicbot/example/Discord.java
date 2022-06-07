@@ -16,6 +16,7 @@ public class Discord {
     public static final String cmdStop = "stop";
     public static final String cmdSkip = "skip";
     public static final String cmdResume = "resume";
+    public static final String cmdList = "list";
 
     public Discord(String token) {
         try {
@@ -43,6 +44,7 @@ public class Discord {
         this.bot.upsertCommand(cmdStop, "Stoppt den laufenden Song!").queue();
         this.bot.upsertCommand(cmdSkip, "Überspringt den laufenden Song!").queue();
         this.bot.upsertCommand(cmdResume, "Spielt den letzten laufenden Song!").queue();
+        this.bot.upsertCommand(cmdList, "Zeigt die Liste der kommenden Songs!").queue();
     }
 
     public JDA getBot() {
