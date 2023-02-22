@@ -10,8 +10,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import de.goldendeveloper.discord.musicbot.example.music.GuildMusicManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -51,7 +51,7 @@ public class Events extends ListenerAdapter {
             switch(cmd) {
                 case Discord.cmdPlay -> {
                     String TrackUrl = e.getOption(Discord.cmdPlayOptionTrackUrl).getAsString();
-                    loadAndPlay(e.getTextChannel(), TrackUrl);
+                    loadAndPlay(e.getChannel().asTextChannel(), TrackUrl);
                 }
                 case Discord.cmdSkip -> skipTrack(e);
                 case Discord.cmdPause -> pauseTrack(e);
