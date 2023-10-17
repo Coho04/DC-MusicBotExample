@@ -2,9 +2,6 @@
 
 [![Build Java with Maven](https://github.com/Golden-Developer/Dc-MusicBotExample/actions/workflows/build.yml/badge.svg)](https://github.com/Golden-Developer/Dc-MusicBotExample/actions/workflows/build.yml)
 
-## Features
-- Backup entire Discord server including channels, roles, and permissions.
-- Restore backups to restore server configurations.
 
 ## Installation
 1. Clone the repository from GitHub: https://github.com/Golden-Developer/DC-MusicBotExample
