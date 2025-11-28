@@ -19,6 +19,11 @@
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
+        <repository>
+            <id>goldendeveloper</id>
+            <name>GoldenDeveloper Repository</name>
+            <url>https://repo.goldendeveloper.de/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
