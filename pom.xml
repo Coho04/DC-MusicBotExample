@@ -20,9 +20,9 @@
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
         <repository>
-            <id>goldendeveloper</id>
+            <id>Golden-Developer-Maven-Public</id>
             <name>GoldenDeveloper Repository</name>
-            <url>https://repo.goldendeveloper.de/releases</url>
+            <url>https://nexus.golden-developer.de/repository/maven-public/</url>
         </repository>
     </repositories>
 
