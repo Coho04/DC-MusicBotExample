@@ -1,6 +1,6 @@
 package de.goldendeveloper.discord.musicbot.example;
 
-import de.goldendeveloper.dcbcore.DCBotBuilder;
+import io.github.coho04.dcbcore.DCBotBuilder;
 import de.goldendeveloper.discord.musicbot.example.commands.*;
 import de.goldendeveloper.discord.musicbot.example.helper.MusicHelper;
 
